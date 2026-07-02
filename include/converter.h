@@ -1,6 +1,10 @@
 #ifndef CONVERTER_H
 #define CONVERTER_H
 
+#define CLASSROOM_FILENAME "classrooms.json"
+#define BUILDING_FILENAME  "buildings.json"
+#define CAMPUSES_FILENAME  "campuses.json"
+
 /**
  * Recebe um arquivo csv com os dados das salas de aula e constrói um JSON com os dados
  * Retorno: 1 se sucesso, 0 se erro

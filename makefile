@@ -5,7 +5,8 @@ TARGET = navdi
 
 HDR = \
 	include/converter.h \
-	include/csv_parser.h
+	include/csv_parser.h \
+	include/model.h
 
 OBJ = \
 	src/main.o \

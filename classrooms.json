@@ -1,0 +1,28 @@
+{
+	"classrooms": [
+		{ "id": 1, "name": "Bell Rock Lighthouse", "coordinate": { "latitude": 56.434167, "longitude": -2.387222 }, "building_id": 1 },
+		{ "id": 2, "name": "Brooklyn Bridge", "coordinate": { "latitude": 40.705556, "longitude": -73.996389 }, "building_id": 1 },
+		{ "id": 3, "name": "Catacombs of Kom el Shoqafa", "coordinate": { "latitude": 31.178558, "longitude": 29.892954 }, "building_id": 1 },
+		{ "id": 4, "name": "Channel Tunnel", "coordinate": { "latitude": 51.012500, "longitude": 1.504100 }, "building_id": 1 },
+		{ "id": 5, "name": "Chichen Itza", "coordinate": { "latitude": 20.682778, "longitude": -88.568611 }, "building_id": 2 },
+		{ "id": 6, "name": "Christ the Redeemer Statue", "coordinate": { "latitude": -21.048056, "longitude": -43.210556 }, "building_id": 2 },
+		{ "id": 7, "name": "CN Tower", "coordinate": { "latitude": 43.642600, "longitude": -79.387100 }, "building_id": 2 },
+		{ "id": 8, "name": "Colosseum", "coordinate": { "latitude": 41.890000, "longitude": 12.492222 }, "building_id": 2 },
+		{ "id": 9, "name": "Colossus of Rhodes", "coordinate": { "latitude": 36.451100, "longitude": 28.227800 }, "building_id": 2 },
+		{ "id": 10, "name": "Delta Works / Zuiderzee Works", "coordinate": { "latitude": 51.650000, "longitude": 3.720000 }, "building_id": 2 },
+		{ "id": 11, "name": "Empire State Building", "coordinate": { "latitude": 40.748333, "longitude": -73.985556 }, "building_id": 3 },
+		{ "id": 12, "name": "First Transcontinental Railroad", "coordinate": { "latitude": 41.276389, "longitude": 95.866667 }, "building_id": 3 },
+		{ "id": 13, "name": "Golden Gate Bridge", "coordinate": { "latitude": 37.819722, "longitude": -122.478611 }, "building_id": 3 },
+		{ "id": 14, "name": "Grand Canyon", "coordinate": { "latitude": 36.100000, "longitude": -112.100000 }, "building_id": 3 },
+		{ "id": 15, "name": "Great Barrier Reef", "coordinate": { "latitude": -17.713889, "longitude": 147.700000 }, "building_id": 4 },
+		{ "id": 16, "name": "Great Pyramid of Giza", "coordinate": { "latitude": 29.979167, "longitude": 31.134167 }, "building_id": 4 },
+		{ "id": 17, "name": "Great Wall of China", "coordinate": { "latitude": 40.676930, "longitude": 117.231930 }, "building_id": 4 },
+		{ "id": 18, "name": "Guanabara Bay", "coordinate": { "latitude": -21.209722, "longitude": -43.155556 }, "building_id": 4 },
+		{ "id": 19, "name": "Hagia Sophia", "coordinate": { "latitude": 41.008548, "longitude": 28.979938 }, "building_id": 5 },
+		{ "id": 20, "name": "Hanging Gardens of Babylon", "coordinate": { "latitude": 33.535500, "longitude": 44.247500 }, "building_id": 5 },
+		{ "id": 21, "name": "Hoover Dam", "coordinate": { "latitude": 36.015556, "longitude": -114.737778 }, "building_id": 5 },
+		{ "id": 22, "name": "Itaipu Dam", "coordinate": { "latitude": -24.591944, "longitude": -54.588889 }, "building_id": 6 },
+		{ "id": 23, "name": "Leaning Tower of Pisa", "coordinate": { "latitude": 43.723056, "longitude": 10.396389 }, "building_id": 6 },
+		{ "id": 24, "name": "Lighthouse of Alexandria", "coordinate": { "latitude": 31.213889, "longitude": 29.885556 }, "building_id": 6 }
+	]
+}
