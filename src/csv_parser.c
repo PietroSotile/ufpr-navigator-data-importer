@@ -2,11 +2,51 @@
 #include <string.h>
 #include "../include/csv_parser.h"
 
-#define BUFFER_SIZE 32
+int read_line(FILE *file, char **line) {
+    int capacity, line_length;
+    char c, *temp;
+    if(!file)
+        return -1;
+
+    capacity = LINE_SIZE;
+    line_length = 0;
+    
+    *line = malloc(sizeof(char) * capacity);
+    if(!(*line))
+        return -1;
+
+    c = getc(file);
+    if(c == EOF) {
+        free(*line);
+        return 0;
+    }
+
+    while(c != EOF && c != '\n') {
+        if(line_length > capacity - 1) {
+            capacity = capacity * 2;
+            temp = realloc(*line, capacity);
+            
+            if(!(temp)) {
+                free(*line);
+                return -1;
+            }
+
+            *line = temp;
+        }
+
+        (*line)[line_length] = c;
+        line_length++;
+        c = getc(file);
+    }
+
+    (*line)[line_length] = '\0';
+
+    return line_length;
+}
 
 CsvRow *csv_parse_line(const char *line) {
-    int i, j, field_index, char_index, field_count, line_length;
-    size_t capacidade;
+    int i, j, field_index, char_index, field_count, line_length, capacity;
+    char *temp;
     CsvRow *row;
 
     if(!line)
@@ -18,7 +58,7 @@ CsvRow *csv_parse_line(const char *line) {
     i = 0;
     field_count = 0;
 
-    while(line[i] != '\n' && line[i] != '\r') {
+    while(line[i] != '\n' && line[i] != '\r' && line[i] != '\0') {
         if(line[i] == ',')
             field_count++;
         i++;
@@ -40,17 +80,29 @@ CsvRow *csv_parse_line(const char *line) {
 
     field_index = 0;
     char_index = 0;
-    capacidade = BUFFER_SIZE;
+    capacity = BUFFER_SIZE;
     for(i = 0; i < line_length; i++) {
         if(line[i] == ',') {
             row->fields[field_index][char_index] = '\0';
             field_index++;
+            capacity = BUFFER_SIZE;
             char_index = 0;
 
             continue;
-        } else if(char_index > capacidade - 1) {
-            capacidade = capacidade * 2;
-            row->fields[field_index] = realloc(row->fields[field_index], capacidade);
+        } else if(capacity - char_index == 1) {
+            capacity = capacity * 2;
+            temp = realloc(row->fields[field_index], capacity);
+
+            if(!temp) {
+                for(j = 0; j < field_count + 1; j++)
+                    free(row->fields[j]);
+                free(row->fields);
+                free(row);
+
+                return NULL;
+            }
+
+            row->fields[field_index] = temp;
         }
             
         row->fields[field_index][char_index] = line[i];
