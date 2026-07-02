@@ -62,23 +62,12 @@ static Classroom *classroom_from_row(CsvRow *row) {
     return room;
 }
 
-static char *classroom_to_json(Classroom *classroom) {
-    int length;
-    char *name;
+static void classroom_write_json(FILE *classrooms, Classroom *classroom) {
+    if(!classroom || !classrooms)
+        return;
 
-    if(!classroom)
-        return NULL;
-
-    length = snprintf(NULL, 0, "{ \"id\": %d, \"name\": \"%s\", \"coordinate\": { \"latitude\": %lf, \"longitude\": %lf }, \"building_id\": %d }",
+    fprintf(classrooms, "{ \"id\": %d, \"name\": \"%s\", \"coordinate\": { \"latitude\": %lf, \"longitude\": %lf }, \"building_id\": %d }",
         classroom->id, classroom->name, classroom->coordinate.latitude, classroom->coordinate.longitude, classroom->building_id);
-
-    if(!(name = malloc(sizeof(char) * (length + 1))))
-        return NULL;
-
-    snprintf(name, length + 1, "{ \"id\": %d, \"name\": \"%s\", \"coordinate\": { \"latitude\": %lf, \"longitude\": %lf }, \"building_id\": %d }",
-        classroom->id, classroom->name, classroom->coordinate.latitude, classroom->coordinate.longitude, classroom->building_id);
-
-    return name;
 }
 
 void classroom_destroy(Classroom *classroom) {
@@ -89,7 +78,7 @@ void classroom_destroy(Classroom *classroom) {
 }
 
 int classrooms_to_json(const char *csv) {
-    char *word, *json_line;
+    char *word;
     FILE *classrooms_csv ;
     CsvRow *row;
     Classroom *classroom;
@@ -122,12 +111,10 @@ int classrooms_to_json(const char *csv) {
         free(word);
 
         classroom = classroom_from_row(row);
-        json_line = classroom_to_json(classroom);
 
         fprintf(classrooms, "\t");
-        fprintf(classrooms, "%s", json_line);
+        classroom_write_json(classrooms, classroom);
 
-        free(json_line);
         classroom_destroy(classroom);
         csv_row_free(row);
     }
@@ -137,12 +124,10 @@ int classrooms_to_json(const char *csv) {
         free(word);
 
         classroom = classroom_from_row(row);
-        json_line = classroom_to_json(classroom);
 
         fprintf(classrooms, ",\n\t\t");
-        fprintf(classrooms, "%s", json_line);
+        classroom_write_json(classrooms, classroom);
 
-        free(json_line);
         classroom_destroy(classroom);
         csv_row_free(row);
     }
