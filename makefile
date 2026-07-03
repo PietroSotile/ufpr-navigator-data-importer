@@ -11,7 +11,8 @@ HDR = \
 OBJ = \
 	src/main.o \
     src/converter.o \
-	src/csv_parser.o
+	src/csv_parser.o \
+	src/model.o 
 
 $(TARGET): $(OBJ)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
@@ -19,6 +20,7 @@ $(TARGET): $(OBJ)
 main.o: src/main.c $(HDR)
 converter.o: src/converter.c $(HDR)
 csv_parser.o: src/csv_parser.c $(HDR)
+model.o: src/model.c $(HDR)
 
 clean:
 	rm -rf $(OBJ) $(TARGET)
