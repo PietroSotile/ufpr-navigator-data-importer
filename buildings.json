@@ -1,0 +1,94 @@
+{
+	"buildings": [
+		{
+			"id": 1,
+			"name": "Polytechnic Administration",
+			"code": "PA",
+			"entrance": { "latitude": -25.449812, "longitude": -49.232105 },
+			"polygon": {
+				"coordinates": [
+					{ "latitude": -25.449900, "longitude": -49.232200 },
+					{ "latitude": -25.449700, "longitude": -49.232200 },
+					{ "latitude": -25.449700, "longitude": -49.232000 },
+					{ "latitude": -25.449900, "longitude": -49.232000 }
+				]
+			},
+			"campus_id": 1
+		},
+		{
+			"id": 2,
+			"name": "Technology Center",
+			"code": "CT",
+			"entrance": { "latitude": -25.449102, "longitude": -49.231442 },
+			"polygon": {
+				"coordinates": [
+					{ "latitude": -25.449200, "longitude": -49.231600 },
+					{ "latitude": -25.449000, "longitude": -49.231600 },
+					{ "latitude": -25.449000, "longitude": -49.231300 },
+					{ "latitude": -25.449200, "longitude": -49.231300 }
+				]
+			},
+			"campus_id": 1
+		},
+		{
+			"id": 3,
+			"name": "Library Central",
+			"code": "BC",
+			"entrance": { "latitude": -25.448531, "longitude": -49.231870 },
+			"polygon": {
+				"coordinates": [
+					{ "latitude": -25.448700, "longitude": -49.232000 },
+					{ "latitude": -25.448400, "longitude": -49.232000 },
+					{ "latitude": -25.448400, "longitude": -49.231700 },
+					{ "latitude": -25.448700, "longitude": -49.231700 }
+				]
+			},
+			"campus_id": 1
+		},
+		{
+			"id": 4,
+			"name": "Chemistry Building",
+			"code": "CQ",
+			"entrance": { "latitude": -25.450623, "longitude": -49.230512 },
+			"polygon": {
+				"coordinates": [
+					{ "latitude": -25.450800, "longitude": -49.230700 },
+					{ "latitude": -25.450500, "longitude": -49.230700 },
+					{ "latitude": -25.450500, "longitude": -49.230300 },
+					{ "latitude": -25.450800, "longitude": -49.230300 }
+				]
+			},
+			"campus_id": 1
+		},
+		{
+			"id": 5,
+			"name": "Botanical Research Center",
+			"code": "CB",
+			"entrance": { "latitude": -25.441987, "longitude": -49.236821 },
+			"polygon": {
+				"coordinates": [
+					{ "latitude": -25.442100, "longitude": -49.236900 },
+					{ "latitude": -25.441900, "longitude": -49.236900 },
+					{ "latitude": -25.441900, "longitude": -49.236700 },
+					{ "latitude": -25.442100, "longitude": -49.236700 }
+				]
+			},
+			"campus_id": 2
+		},
+		{
+			"id": 6,
+			"name": "Agricultural Sciences",
+			"code": "CA",
+			"entrance": { "latitude": -25.427654, "longitude": -49.267891 },
+			"polygon": {
+				"coordinates": [
+					{ "latitude": -25.427800, "longitude": -49.268000 },
+					{ "latitude": -25.427500, "longitude": -49.268000 },
+					{ "latitude": -25.427500, "longitude": -49.267700 },
+					{ "latitude": -25.427800, "longitude": -49.267700 }
+				]
+			},
+			"campus_id": 3
+		}
+	]
+}
