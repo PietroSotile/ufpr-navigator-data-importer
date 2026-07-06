@@ -1,0 +1,43 @@
+{
+	"campuses": [
+		{
+			"id": 1,
+			"name": "Centro Politécnico",
+			"entrance": { "latitude": -25.449812, "longitude": -49.232105 },
+			"polygon": {
+				"coordinates": [
+					{ "latitude": -25.450100, "longitude": -49.232400 },
+					{ "latitude": -25.449500, "longitude": -49.232400 },
+					{ "latitude": -25.449500, "longitude": -49.231800 },
+					{ "latitude": -25.450100, "longitude": -49.231800 }
+				]
+			}
+		},
+		{
+			"id": 2,
+			"name": "Jardim Botânico",
+			"entrance": { "latitude": -25.441987, "longitude": -49.236821 },
+			"polygon": {
+				"coordinates": [
+					{ "latitude": -25.442300, "longitude": -49.237100 },
+					{ "latitude": -25.441700, "longitude": -49.237100 },
+					{ "latitude": -25.441700, "longitude": -49.236500 },
+					{ "latitude": -25.442300, "longitude": -49.236500 }
+				]
+			}
+		},
+		{
+			"id": 3,
+			"name": "Agrárias",
+			"entrance": { "latitude": -25.427654, "longitude": -49.267891 },
+			"polygon": {
+				"coordinates": [
+					{ "latitude": -25.427900, "longitude": -49.268300 },
+					{ "latitude": -25.427300, "longitude": -49.268300 },
+					{ "latitude": -25.427300, "longitude": -49.267500 },
+					{ "latitude": -25.427900, "longitude": -49.267500 }
+				]
+			}
+		}
+	]
+}
