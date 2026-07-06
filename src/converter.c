@@ -42,8 +42,7 @@ static Classroom *classroom_from_row(CsvRow *row) {
         printf("Campo building_id do CSV inválido para a operação\n");
         return NULL;
     }
-        
-    
+
     if(!(room = malloc(sizeof(Classroom))))
         return NULL;
 
@@ -97,6 +96,31 @@ static void building_write_json(FILE *buildings, Building *building) {
     fprintf(buildings, "\t\t}");
 }
 
+static void campus_write_json(FILE *campuses, Campus *campus) {
+    int i;
+    if(!campus || !campuses)
+        return;
+
+    fprintf(campuses, "\t\t{\n");
+    fprintf(campuses, "\t\t\t\"id\": %d,\n", campus->id);
+    fprintf(campuses, "\t\t\t\"name\": \"%s\",\n", campus->name);
+    fprintf(campuses, "\t\t\t\"entrance\": { \"latitude\": %lf, \"longitude\": %lf },\n",
+        campus->entrance.latitude, campus->entrance.longitude);
+    fprintf(campuses, "\t\t\t\"polygon\": {\n");
+    fprintf(campuses, "\t\t\t\t\"coordinates\": [\n");
+    for(i = 0; i < campus->polygon_count; i++) {
+        fprintf(campuses, "\t\t\t\t\t{ \"latitude\": %lf, \"longitude\": %lf }",
+            campus->polygon[i].latitude,
+            campus->polygon[i].longitude);
+        if(i < campus->polygon_count - 1)
+            fprintf(campuses, ",");
+        fprintf(campuses, "\n");
+    }
+    fprintf(campuses, "\t\t\t\t]\n");
+    fprintf(campuses, "\t\t\t}\n");
+    fprintf(campuses, "\t\t}");
+}
+
 static Building *building_from_row(CsvRow *row) {
     int id, campus_id;
     double latitude, longitude;
@@ -134,7 +158,7 @@ static Building *building_from_row(CsvRow *row) {
         printf("Campo campus_id do CSV inválido para a operação\n");
         return NULL;
     }
-        
+
     if(strlen(row->fields[2]) > 7) {
         printf("Campo code do CSV inválido para a operação\n");
         return NULL;
@@ -156,11 +180,64 @@ static Building *building_from_row(CsvRow *row) {
     building->entrance.longitude = longitude;
     building->campus_id = campus_id;
 
-    building->polygon_capacity = BUILDING_POLYGON_CAPACITY;
+    building->polygon_capacity = POLYGON_CAPACITY;
     building->polygon = malloc(sizeof(Coordinate) * building->polygon_capacity);
     building->polygon_count = 0;
 
     return building;
+}
+
+static Campus *campus_from_row(CsvRow *row) {
+    int id;
+    double latitude, longitude;
+    Campus *campus;
+    char *end;
+
+    if(!row)
+        return NULL;
+
+    if(row->count != 4) {
+        printf("Número de colunas do CSV inválido para a operação\n");
+        return NULL;
+    }
+
+    id = strtol(row->fields[0], &end, 10);
+    if(row->fields[0] == end) {
+        printf("Campo id do CSV inválido para a operação\n");
+        return NULL;
+    }
+
+    latitude = strtod(row->fields[2], &end);
+    if(row->fields[2] == end) {
+        printf("Campo latitude do CSV inválido para a operação\n");
+        return NULL;
+    }
+
+    longitude = strtod(row->fields[3], &end);
+    if(row->fields[3] == end) {
+        printf("Campo longitude do CSV inválido para a operação\n");
+        return NULL;
+    }
+
+    if(!(campus = malloc(sizeof(Campus))))
+        return NULL;
+
+    campus->name = malloc(sizeof(char) * (strlen(row->fields[1]) + 1));
+    if(!(campus->name)) {
+        free(campus);
+        return NULL;
+    }
+
+    campus->id = id;
+    strcpy(campus->name, row->fields[1]);
+    campus->entrance.latitude = latitude;
+    campus->entrance.longitude = longitude;
+
+    campus->polygon_capacity = POLYGON_CAPACITY;
+    campus->polygon = malloc(sizeof(Coordinate) * campus->polygon_capacity);
+    campus->polygon_count = 0;
+
+    return campus;
 }
 
 static Polyline *polyline_from_row(CsvRow *row) {
@@ -171,7 +248,7 @@ static Polyline *polyline_from_row(CsvRow *row) {
 
     if(!row)
         return NULL;
-        
+
     if(row->count != 3) {
         printf("Número de colunas do CSV inválido para a operação\n");
         return NULL;
@@ -223,7 +300,7 @@ static void building_append_coordinate(Building *building, Coordinate coord) {
     if(building->polygon_count >= building->polygon_capacity) {
         building->polygon_capacity = building->polygon_capacity * 2;
         temp = realloc(building->polygon, sizeof(Coordinate) * building->polygon_capacity);
-        
+
         if(!(temp))
             return;
 
@@ -234,16 +311,45 @@ static void building_append_coordinate(Building *building, Coordinate coord) {
     building->polygon_count++;
 }
 
+static Campus *find_campus(Campus **campuses, int count, int id) {
+    int i;
+
+    for(i = 0; i < count; i++) {
+        if(campuses[i]->id == id)
+            return campuses[i];
+    }
+    return NULL;
+}
+
+static void campus_append_coordinate(Campus *campus, Coordinate coord) {
+    Coordinate *temp;
+    if(!campus)
+        return;
+
+    if(campus->polygon_count >= campus->polygon_capacity) {
+        campus->polygon_capacity = campus->polygon_capacity * 2;
+        temp = realloc(campus->polygon, sizeof(Coordinate) * campus->polygon_capacity);
+
+        if(!(temp))
+            return;
+
+        campus->polygon = temp;
+    }
+
+    campus->polygon[campus->polygon_count] = coord;
+    campus->polygon_count++;
+}
+
 static Building **load_buildings(FILE *buildings_csv, int *count) {
     int index;
     char *word;
     Building **buildings;
     CsvRow *row;
-    
-    if(!buildings_csv) 
+
+    if(!buildings_csv)
         return NULL;
 
-    read_line(buildings_csv, &word);   // header
+    read_line(buildings_csv, &word);
     free(word);
 
     *count = 0;
@@ -256,7 +362,7 @@ static Building **load_buildings(FILE *buildings_csv, int *count) {
     if(!(buildings = malloc(sizeof(Building *) * (*count))))
         return NULL;
 
-    read_line(buildings_csv, &word); // remove o cabeçalho
+    read_line(buildings_csv, &word);
     free(word);
 
     index = 0;
@@ -273,16 +379,55 @@ static Building **load_buildings(FILE *buildings_csv, int *count) {
     return buildings;
 }
 
+static Campus **load_campuses(FILE *campuses_csv, int *count) {
+    int index;
+    char *word;
+    Campus **campuses;
+    CsvRow *row;
+
+    if(!campuses_csv)
+        return NULL;
+
+    read_line(campuses_csv, &word);
+    free(word);
+
+    *count = 0;
+    while(read_line(campuses_csv, &word) != 0) {
+        (*count)++;
+        free(word);
+    }
+    rewind(campuses_csv);
+
+    if(!(campuses = malloc(sizeof(Campus *) * (*count))))
+        return NULL;
+
+    read_line(campuses_csv, &word);
+    free(word);
+
+    index = 0;
+    while(read_line(campuses_csv, &word) != 0) {
+        row = csv_parse_line(word);
+        free(word);
+
+        campuses[index] = campus_from_row(row);
+
+        csv_row_free(row);
+        index++;
+    }
+
+    return campuses;
+}
+
 static void load_building_polygons(FILE *csv_poly, Building **buildings, int buildings_count) {
     char *word;
     Polyline *polyline;
     Building *building;
     CsvRow *row;
-    
-    if(!csv_poly || !buildings) 
+
+    if(!csv_poly || !buildings)
         return;
 
-    read_line(csv_poly, &word);   // header
+    read_line(csv_poly, &word);
     free(word);
 
     while(read_line(csv_poly, &word) != 0) {
@@ -295,10 +440,40 @@ static void load_building_polygons(FILE *csv_poly, Building **buildings, int bui
 
         free(word);
         csv_row_free(row);
-        
+
         building = find_building(buildings, buildings_count, polyline->place_id);
         if(building)
             building_append_coordinate(building, polyline->coordinate);
+        polyline_destroy(polyline);
+    }
+}
+
+static void load_campus_polygons(FILE *csv_poly, Campus **campuses, int campuses_count) {
+    char *word;
+    Polyline *polyline;
+    Campus *campus;
+    CsvRow *row;
+
+    if(!csv_poly || !campuses)
+        return;
+
+    read_line(csv_poly, &word);
+    free(word);
+
+    while(read_line(csv_poly, &word) != 0) {
+        row = csv_parse_line(word);
+        if((polyline = polyline_from_row(row)) == NULL) {
+            free(word);
+            csv_row_free(row);
+            continue;
+        }
+
+        free(word);
+        csv_row_free(row);
+
+        campus = find_campus(campuses, campuses_count, polyline->place_id);
+        if(campus)
+            campus_append_coordinate(campus, polyline->coordinate);
         polyline_destroy(polyline);
     }
 }
@@ -308,28 +483,27 @@ int classrooms_to_json(const char *csv) {
     FILE *classrooms_csv, *classrooms_json;
     CsvRow *row;
     Classroom *classroom;
-    
+
     if(!csv)
         return 0;
 
     classrooms_json = fopen(CLASSROOM_FILENAME, "w+");
     if(!classrooms_json) {
         perror("Erro ao abrir/criar arquivo .json");
-        exit (1);
+        exit(1);
     }
 
     classrooms_csv = fopen(csv, "r");
-
     if(!classrooms_csv) {
         perror("Erro ao abrir o arquivo csv");
         fclose(classrooms_json);
         return 1;
     }
-    
+
     fprintf(classrooms_json, "{\n");
     fprintf(classrooms_json, "\t\"classrooms\": [\n\t");
 
-    read_line(classrooms_csv, &word); // remove o cabeçalho
+    read_line(classrooms_csv, &word);
     free(word);
 
     if(read_line(classrooms_csv, &word) != 0) {
@@ -377,11 +551,10 @@ int buildings_to_json(const char *csv, const char *csv_poly) {
     buildings_json = fopen(BUILDING_FILENAME, "w+");
     if(!buildings_json) {
         perror("Erro ao abrir/criar arquivo .json");
-        exit (1);
+        exit(1);
     }
 
     buildings_csv = fopen(csv, "r");
-
     if(!buildings_csv) {
         fclose(buildings_json);
         perror("Erro ao abrir o arquivo csv de prédios\n");
@@ -389,7 +562,6 @@ int buildings_to_json(const char *csv, const char *csv_poly) {
     }
 
     polylines_csv = fopen(csv_poly, "r");
-
     if(!polylines_csv) {
         fclose(buildings_json);
         fclose(buildings_csv);
@@ -399,7 +571,7 @@ int buildings_to_json(const char *csv, const char *csv_poly) {
 
     buildings = load_buildings(buildings_csv, &buildings_count);
     load_building_polygons(polylines_csv, buildings, buildings_count);
-    
+
     fprintf(buildings_json, "{\n");
     fprintf(buildings_json, "\t\"buildings\": [\n");
 
@@ -412,7 +584,7 @@ int buildings_to_json(const char *csv, const char *csv_poly) {
     fprintf(buildings_json, "\n\t]\n");
     fprintf(buildings_json, "}\n");
 
-    for (int i = 0; i < buildings_count; i++)
+    for(i = 0; i < buildings_count; i++)
         building_destroy(buildings[i]);
     free(buildings);
 
@@ -423,9 +595,55 @@ int buildings_to_json(const char *csv, const char *csv_poly) {
 }
 
 int campuses_to_json(const char *csv, const char *csv_poly) {
-    if(!csv)
-        return 0;
-    printf("GERA campuses.json\n");
+    FILE *campuses_csv, *polylines_csv, *campuses_json;
+    Campus **campuses;
+    int campuses_count, i;
 
+    if(!csv || !csv_poly)
+        return 0;
+
+    campuses_json = fopen(CAMPUSES_FILENAME, "w+");
+    if(!campuses_json) {
+        perror("Erro ao abrir/criar arquivo .json");
+        exit(1);
+    }
+
+    campuses_csv = fopen(csv, "r");
+    if(!campuses_csv) {
+        fclose(campuses_json);
+        perror("Erro ao abrir o arquivo csv dos campi\n");
+        exit(1);
+    }
+
+    polylines_csv = fopen(csv_poly, "r");
+    if(!polylines_csv) {
+        fclose(campuses_json);
+        fclose(campuses_csv);
+        perror("Erro ao abrir o arquivo csv de contorno dos campi\n");
+        exit(1);
+    }
+
+    campuses = load_campuses(campuses_csv, &campuses_count);
+    load_campus_polygons(polylines_csv, campuses, campuses_count);
+
+    fprintf(campuses_json, "{\n");
+    fprintf(campuses_json, "\t\"campuses\": [\n");
+
+    campus_write_json(campuses_json, campuses[0]);
+    for(i = 1; i < campuses_count; i++) {
+        fprintf(campuses_json, ",\n");
+        campus_write_json(campuses_json, campuses[i]);
+    }
+
+    fprintf(campuses_json, "\n\t]\n");
+    fprintf(campuses_json, "}\n");
+
+    for(i = 0; i < campuses_count; i++)
+        campus_destroy(campuses[i]);
+    free(campuses);
+
+    fclose(campuses_json);
+    fclose(campuses_csv);
+    fclose(polylines_csv);
     return 1;
 }

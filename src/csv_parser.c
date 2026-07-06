@@ -18,16 +18,18 @@ int read_line(FILE *file, char **line) {
     c = getc(file);
     if(c == EOF) {
         free(*line);
+        *line = NULL;
         return 0;
     }
 
     while(c != EOF && c != '\n') {
-        if(line_length > capacity - 1) {
+        if(line_length >= capacity - 1) {
             capacity = capacity * 2;
             temp = realloc(*line, capacity);
             
             if(!(temp)) {
                 free(*line);
+                *line = NULL;
                 return -1;
             }
 
@@ -37,6 +39,12 @@ int read_line(FILE *file, char **line) {
         (*line)[line_length] = c;
         line_length++;
         c = getc(file);
+    }
+
+    if(line_length == 0) {
+        free(*line);
+        *line = NULL;
+        return 0;
     }
 
     (*line)[line_length] = '\0';

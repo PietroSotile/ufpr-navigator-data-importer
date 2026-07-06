@@ -15,6 +15,14 @@ void building_destroy(Building *building) {
     }
 }
 
+void campus_destroy(Campus *campus) {
+    if(campus) {
+        free(campus->name);
+        free(campus->polygon);
+        free(campus);
+    }
+}
+
 void polyline_destroy(Polyline *polyline) {
     if(polyline)
         free(polyline);

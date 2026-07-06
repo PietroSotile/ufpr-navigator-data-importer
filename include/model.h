@@ -18,7 +18,7 @@ typedef struct {
     Coordinate coordinate;
 } Polyline;
 
-#define BUILDING_POLYGON_CAPACITY 16
+#define POLYGON_CAPACITY 16
 
 typedef struct {
     int id;
@@ -32,6 +32,16 @@ typedef struct {
     int polygon_capacity;
 } Building;
 
+typedef struct {
+    int id;
+    char *name;
+    Coordinate entrance;
+
+    Coordinate *polygon;
+    int polygon_count;
+    int polygon_capacity;
+} Campus;
+
 /**
  * Desaloca a memória utilizada por *classroom e campos derivados
  */
@@ -41,6 +51,11 @@ void classroom_destroy(Classroom *classroom);
  * Desaloca a memória utilizada por *building e campos derivados
  */
 void building_destroy(Building *building);
+
+/**
+ * Desaloca a memória utilizada por *campus e campos derivados
+ */
+void campus_destroy(Campus *campus);
 
 /**
  * Desaloca a memória utilizada por *polyline e campos derivados
