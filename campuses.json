@@ -2,40 +2,46 @@
 	"campuses": [
 		{
 			"id": 1,
-			"name": "Centro Politécnico",
-			"entrance": { "latitude": -25.449812, "longitude": -49.232105 },
+			"name": "Politécnico",
+			"entrance": { "latitude": -25.451640, "longitude": -49.229980 },
 			"polygon": {
 				"coordinates": [
-					{ "latitude": -25.450100, "longitude": -49.232400 },
-					{ "latitude": -25.449500, "longitude": -49.232400 },
-					{ "latitude": -25.449500, "longitude": -49.231800 },
-					{ "latitude": -25.450100, "longitude": -49.231800 }
+					{ "latitude": -25.453737, "longitude": -49.233040 },
+					{ "latitude": -25.453900, "longitude": -49.232605 },
+					{ "latitude": -25.453316, "longitude": -49.232257 },
+					{ "latitude": -25.452283, "longitude": -49.230116 },
+					{ "latitude": -25.451320, "longitude": -49.229881 },
+					{ "latitude": -25.450794, "longitude": -49.229847 },
+					{ "latitude": -25.448226, "longitude": -49.230188 },
+					{ "latitude": -25.445387, "longitude": -49.232448 },
+					{ "latitude": -25.446492, "longitude": -49.233975 },
+					{ "latitude": -25.448507, "longitude": -49.234469 },
+					{ "latitude": -25.448297, "longitude": -49.235047 },
+					{ "latitude": -25.449890, "longitude": -49.236170 },
+					{ "latitude": -25.450817, "longitude": -49.236862 },
+					{ "latitude": -25.452064, "longitude": -49.238295 },
+					{ "latitude": -25.453824, "longitude": -49.237017 },
+					{ "latitude": -25.454964, "longitude": -49.238837 },
+					{ "latitude": -25.457673, "longitude": -49.236989 },
+					{ "latitude": -25.456748, "longitude": -49.235483 },
+					{ "latitude": -25.455911, "longitude": -49.236150 },
+					{ "latitude": -25.453302, "longitude": -49.234806 },
+					{ "latitude": -25.453574, "longitude": -49.233117 },
+					{ "latitude": -25.453737, "longitude": -49.233040 }
 				]
 			}
 		},
 		{
 			"id": 2,
-			"name": "Jardim Botânico",
-			"entrance": { "latitude": -25.441987, "longitude": -49.236821 },
+			"name": "Botânico",
+			"entrance": { "latitude": -25.448165, "longitude": -49.235782 },
 			"polygon": {
 				"coordinates": [
-					{ "latitude": -25.442300, "longitude": -49.237100 },
-					{ "latitude": -25.441700, "longitude": -49.237100 },
-					{ "latitude": -25.441700, "longitude": -49.236500 },
-					{ "latitude": -25.442300, "longitude": -49.236500 }
-				]
-			}
-		},
-		{
-			"id": 3,
-			"name": "Agrárias",
-			"entrance": { "latitude": -25.427654, "longitude": -49.267891 },
-			"polygon": {
-				"coordinates": [
-					{ "latitude": -25.427900, "longitude": -49.268300 },
-					{ "latitude": -25.427300, "longitude": -49.268300 },
-					{ "latitude": -25.427300, "longitude": -49.267500 },
-					{ "latitude": -25.427900, "longitude": -49.267500 }
+					{ "latitude": -25.444407, "longitude": -49.240563 },
+					{ "latitude": -25.444153, "longitude": -49.236276 },
+					{ "latitude": -25.445542, "longitude": -49.234688 },
+					{ "latitude": -25.451432, "longitude": -49.239349 },
+					{ "latitude": -25.446336, "longitude": -49.240942 }
 				]
 			}
 		}

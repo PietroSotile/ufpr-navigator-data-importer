@@ -1,7 +1,9 @@
-Id,Name,Code,EntranceLatitude,EntranceLongitude,CampusId
-1,Polytechnic Administration,PA,-25.449812,-49.232105,1
-2,Technology Center,CT,-25.449102,-49.231442,1
-3,Library Central,BC,-25.448531,-49.231870,1
-4,Chemistry Building,CQ,-25.450623,-49.230512,1
-5,Botanical Research Center,CB,-25.441987,-49.236821,2
-6,Agricultural Sciences,CA,-25.427654,-49.267891,3
+Id,Nome,Código,LatitudeEntrada,LongitudeEntrada,CampusId
+1,Setor de Exatas (novo),PA,-25.450205,-49.2311668,1
+2,Setor de Exatas (velho),PC,-25.4507535,-49.2314918,1
+3,Ciências da Terra,CT,-25.4513993,-49.2317719,1
+4,Prédio de Administração,ADM,-25.4505342,-49.2323103,1
+5,Biblioteca,BIB,-25.450833,-49.2324477,1
+6,Laboratório da CT,LAB-CT,-25.451394,-49.2311243,1
+7,Departamento de Informática,DINF,-25.4507629,-49.2319427,1
+8,Restaurante Universitário Poli,RUPOLI,-25.4496358,-49.2348936,1
